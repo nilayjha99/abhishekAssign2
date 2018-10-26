@@ -30,15 +30,16 @@ class PrioritySelector: UIStackView {
         
         
         //define red(high) priority button
-        let priorityButton1=UIButton()
-        priorityButton1.backgroundColor = UIColor.red
-        //priorityButton1.translatesAutoresizingMaskIntoConstraints = false
-        //priorityButton1.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-        //priorityButton1.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
-        // Add the button to the stack
-        addArrangedSubview(priorityButton1)
-        
-       /* ////define orange(medium) priority button
+//        let priorityButton1=UIButton()
+//        priorityButton1.backgroundColor = UIColor.red
+//        priorityButton1.translatesAutoresizingMaskIntoConstraints = false
+//        priorityButton1.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
+//        priorityButton1.widthAnchor.constraint(equalToConstant: 15.0).isActive = true
+//        // Add the button to the stack
+//        addArrangedSubview(priorityButton1)
+//
+        /*
+       ////define orange(medium) priority button
         let priorityButton2=UIButton()
         priorityButton2.backgroundColor = UIColor.orange
         priorityButton2.backgroundColor = UIColor.red
@@ -56,6 +57,8 @@ class PrioritySelector: UIStackView {
         priorityButton3.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
         addArrangedSubview(priorityButton3)
     */
+    
+    
     }
     
     

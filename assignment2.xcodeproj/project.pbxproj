@@ -13,7 +13,6 @@
 		CE13D38F21811E320083568D /* assignment2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE13D38D21811E320083568D /* assignment2.xcdatamodeld */; };
 		CE13D39121811E3F0083568D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE13D39021811E3F0083568D /* Assets.xcassets */; };
 		CE13D39421811E3F0083568D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE13D39221811E3F0083568D /* LaunchScreen.storyboard */; };
-		CE13D39C218179B80083568D /* PrioritySelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13D39B218179B80083568D /* PrioritySelector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +24,6 @@
 		CE13D39021811E3F0083568D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE13D39321811E3F0083568D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE13D39521811E3F0083568D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE13D39B218179B80083568D /* PrioritySelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +58,6 @@
 			children = (
 				CE13D38621811E320083568D /* AppDelegate.swift */,
 				CE13D38821811E320083568D /* ViewController.swift */,
-				CE13D39B218179B80083568D /* PrioritySelector.swift */,
 				CE13D38A21811E320083568D /* Main.storyboard */,
 				CE13D39021811E3F0083568D /* Assets.xcassets */,
 				CE13D39221811E3F0083568D /* LaunchScreen.storyboard */,
@@ -141,7 +138,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE13D39C218179B80083568D /* PrioritySelector.swift in Sources */,
 				CE13D38921811E320083568D /* ViewController.swift in Sources */,
 				CE13D38721811E320083568D /* AppDelegate.swift in Sources */,
 				CE13D38F21811E320083568D /* assignment2.xcdatamodeld in Sources */,

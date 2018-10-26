@@ -8,11 +8,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UIScrollViewDelegate {
     
     
     
     @IBOutlet weak var datePickerTF: UITextField!
+    
+    //Scroll View
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var imageView: UIImageView!
+    
     
     //Properties
     let datePicker=UIDatePicker()
@@ -23,6 +29,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       //Zoom Levels
+        self.scrollView.minimumZoomScale = 1.0
+        self.scrollView.maximumZoomScale = 6.0
         
         //function call here
         createDatePicker()
@@ -82,6 +92,15 @@ class ViewController: UIViewController {
         datePickerTF.text = "Unspecified"
         self.view.endEditing(true)
     }
+    
+    
+    func viewForZoomingScrollView(scrollView:UIScrollView)->UIView?
+    {
+        
+        
+        return self.imageView
+    }
+    
     
     
 }
