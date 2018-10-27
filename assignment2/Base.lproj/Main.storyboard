@@ -71,7 +71,7 @@
                                     <outlet property="dateLabel" destination="hbK-uB-Edw" id="NUz-Eq-lHh"/>
                                     <outlet property="nameLabel" destination="3ZO-i8-hnl" id="bhC-cv-rdp"/>
                                     <outlet property="priorityLabel" destination="zDr-Vn-N4u" id="vut-Hg-XaP"/>
-                                    <outlet property="taskImage" destination="rfY-8v-CRs" id="fq2-ER-yRw"/>
+                                    <outlet property="taskImageInCell" destination="rfY-8v-CRs" id="KVu-6m-If4"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -95,13 +95,13 @@
         <!--Task Detail-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="assignment2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="TaskViewController" customModule="assignment2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eDb-ry-fGp">
-                                <rect key="frame" x="0.0" y="-44" width="375" height="1000"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thf-gj-gfN" userLabel="contentView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
@@ -180,7 +180,7 @@
                                             <constraint firstItem="tby-bo-RSh" firstAttribute="leading" secondItem="h2n-a4-gAA" secondAttribute="trailing" constant="14" id="1Ou-3i-VJp"/>
                                             <constraint firstItem="frr-nH-LqH" firstAttribute="top" secondItem="thf-gj-gfN" secondAttribute="top" constant="46" id="2lY-wQ-E4V"/>
                                             <constraint firstItem="Gla-Nj-cRJ" firstAttribute="leading" secondItem="thf-gj-gfN" secondAttribute="leading" constant="18" id="A7V-Ai-odW"/>
-                                            <constraint firstItem="PqH-8M-0S5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="thf-gj-gfN" secondAttribute="leading" symbolic="YES" id="Fdh-Ho-Oeo"/>
+                                            <constraint firstItem="PqH-8M-0S5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="thf-gj-gfN" secondAttribute="leading" constant="20" symbolic="YES" id="Fdh-Ho-Oeo"/>
                                             <constraint firstAttribute="trailing" secondItem="6CA-q4-Ydf" secondAttribute="trailing" constant="81" id="HBJ-we-rAK"/>
                                             <constraint firstItem="O5X-Vz-84F" firstAttribute="top" secondItem="h2n-a4-gAA" secondAttribute="bottom" constant="28" id="HgK-Ja-bOE"/>
                                             <constraint firstItem="dpe-mL-bGJ" firstAttribute="leading" secondItem="thf-gj-gfN" secondAttribute="leading" constant="8" id="IeG-1O-WRr"/>
@@ -227,32 +227,33 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Save Task" width="134.5" id="uta-BM-ia2"/>
-                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Task Detail" id="XtH-0T-CaZ">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="w5d-Bm-SPG"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="kJG-9G-xHT"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="kJG-9G-xHT">
+                            <connections>
+                                <segue destination="QTk-2O-CUS" kind="unwind" unwindAction="unwindToTaskListWithSender:" id="1cS-H1-U3E"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="datePickerTF" destination="6CA-q4-Ydf" id="JiM-Im-s3I"/>
                         <outlet property="mySegmentedControl" destination="tby-bo-RSh" id="O5N-07-a0b"/>
+                        <outlet property="prioritySegment" destination="tby-bo-RSh" id="YY9-y1-9aH"/>
+                        <outlet property="saveButton" destination="kJG-9G-xHT" id="XOr-MN-Bfk"/>
                         <outlet property="taskImage" destination="Gla-Nj-cRJ" id="Tgp-FQ-8wP"/>
-                        <outlet property="taskLabel" destination="frr-nH-LqH" id="nfE-gf-07C"/>
                         <outlet property="taskTextField" destination="hDL-48-FYw" id="o5r-1W-ba6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="QTk-2O-CUS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2852" y="143.92803598200899"/>
+            <point key="canvasLocation" x="2953" y="128"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DDx-nc-vch">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qeh-JP-N2e" sceneMemberID="viewController">
-                    <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="civ-wm-dfl">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -270,7 +271,6 @@
         <scene sceneID="3vL-mg-8UY">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yrb-cV-lPS" sceneMemberID="viewController">
-                    <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GVV-56-iAl">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

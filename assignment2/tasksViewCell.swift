@@ -15,7 +15,8 @@ class tasksViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
-    @IBOutlet weak var taskImage: UIImageView!
+    
+    @IBOutlet weak var taskImageInCell: UIImageView!
     
     
     override func awakeFromNib() {

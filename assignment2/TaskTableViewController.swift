@@ -50,8 +50,8 @@ class TaskTableViewController: UITableViewController {
          let task = tasks[indexPath.row]
 
         cell.nameLabel.text = task.name
-        cell.taskImage.image = task.photo
-        cell.priorityLabel.text = task.priority
+        cell.taskImageInCell.image = task.photo
+        cell.priorityLabel.text = String(task.priority)
         cell.dateLabel.text = task.priorityDate
         
         return cell
@@ -112,18 +112,32 @@ class TaskTableViewController: UITableViewController {
         let photo2 = UIImage(named: "photo2")
         let photo3 = UIImage(named: "photo3")
         
-        guard let task1 = Task(name: "high", photo: photo1, priority: "!", priorityDate:"27/10/2018") else {
+        guard let task1 = Task(name: "high", photo: photo1, priority: 1, priorityDate:"27/10/2018") else {
             fatalError("Unable to instantiate meal1")
         }
         
-        guard let task2 = Task(name: "meet nilay", photo: photo2, priority: "!!!" , priorityDate:"27/10/2018") else {
+        guard let task2 = Task(name: "meet nilay", photo: photo2, priority: 2 , priorityDate:"27/10/2018") else {
             fatalError("Unable to instantiate meal2")
         }
         
-        guard let task3 = Task(name: "paybill", photo: photo3, priority: "!!" , priorityDate:"27/10/2018" ) else {
+        guard let task3 = Task(name: "paybill", photo: photo3, priority: 3 , priorityDate:"27/10/2018" ) else {
             fatalError("Unable to instantiate meal2")
         }
         tasks += [task1, task2, task3]
     }
 
+    
+    //MARK Actions for adding new tasks to the table view cell
+    
+    @IBAction func unwindToTaskList(sender: UIStoryboardSegue) {
+        
+        if let sourceViewController = sender.source as? TaskViewController, let task = sourceViewController.task {
+            
+            let newIndexPath = IndexPath(row: tasks.count, section: 0)
+           tasks.append(task)
+           tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+     }
+    
+    
 }

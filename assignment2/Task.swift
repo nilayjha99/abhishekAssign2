@@ -13,13 +13,13 @@ class Task {
     
     var name: String
     var photo: UIImage?
-    var priority: String
+    var priority: Int
     var priorityDate : String
     
     //MARK Initialisers
     //MARK: Initialization
     
-    init?(name: String, photo: UIImage?, priority: String , priorityDate: String) {
+    init?(name: String, photo: UIImage?, priority: Int , priorityDate: String) {
        
         // Initialization should fail if there is no name or if the rating is negative.
         if name.isEmpty   {
