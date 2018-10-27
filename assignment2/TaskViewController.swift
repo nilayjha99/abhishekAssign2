@@ -8,31 +8,41 @@
 
 import UIKit
 
-class ViewController: UIViewController,UIScrollViewDelegate {
+class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationControllerDelegate {
     
     
     
     @IBOutlet weak var datePickerTF: UITextField!
     
+    @IBOutlet weak var taskImage: UIImageView!
     //Scroll View
-    @IBOutlet weak var scrollView: UIScrollView!
+   // @IBOutlet weak var scrollView: UIScrollView!
     
-    @IBOutlet weak var imageView: UIImageView!
+    //@IBOutlet weak var imageView: UIImageView!
+    
+    
+    
     
     
     //Properties
     let datePicker=UIDatePicker()
     
-
+    @IBOutlet weak var taskTextField: UITextField!
+    
+    
+    
+    
+    // Using segmented control for selecting priority
+    @IBOutlet weak var mySegmentedControl: UISegmentedControl!
+    
     //Actions
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       //Zoom Levels
-        self.scrollView.minimumZoomScale = 1.0
-        self.scrollView.maximumZoomScale = 6.0
+       //Handle the text field’s user input through delegate callbacks.
+        taskTextField.delegate = self
         
         //function call here
         createDatePicker()
@@ -94,13 +104,50 @@ class ViewController: UIViewController,UIScrollViewDelegate {
     }
     
     
-    func viewForZoomingScrollView(scrollView:UIScrollView)->UIView?
+    /*func viewForZoomingScrollView(scrollView:UIScrollView)->UIView?
     {
         
         
         return self.imageView
     }
+    */
+    //MARK Actions
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
+    }
     
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+      taskTextField.text = textField.text
+        
+        
+        
+    }
+    
+    
+    //Segmented button tapped
+    
+    @IBAction func choosePriotity(_ sender: UISegmentedControl) {
+        
+        
+        
+        
+        print("# of Segments = \(sender.numberOfSegments)")
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            print("first segement clicked")
+        case 1:
+            print("second segment clicked")
+        case 2:
+            print("third segemnet clicked")
+        default:
+            break;
+        }  //Switch
+        
+    }
     
     
 }
