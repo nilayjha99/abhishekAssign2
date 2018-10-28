@@ -7,7 +7,11 @@
 //
 
 import UIKit
-class Task {
+import os.log
+class Task: NSObject, NSCoding {
+    
+    
+    
     
     //MARK: Properties
     
@@ -15,6 +19,22 @@ class Task {
     var photo: UIImage?
     var priority: Int
     var priorityDate : String
+    
+    //MARK: - Archiving Paths
+    
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("tasks")
+    
+    //MARK: - Types -
+    
+    struct PropertyKey {
+        
+         static let name = "name"
+         static let photo = "photo"
+         static let priority = "priority"
+         static let  priorityDate = "priorityDate"
+    }
+    
     
     //MARK Initialisers
     //MARK: Initialization
@@ -31,4 +51,34 @@ class Task {
         self.priority = priority
         self.priorityDate = priorityDate
     }
+    
+    //MARK: -  NSCoding
+    func encode(with aCoder: NSCoder) {
+        
+        aCoder.encode(name, forKey: PropertyKey.name)
+        aCoder.encode(photo, forKey: PropertyKey.photo)
+        aCoder.encode(priority, forKey: PropertyKey.priority)
+        aCoder.encode(priorityDate, forKey: PropertyKey.priorityDate)
+    }
+    
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        // The name is required. If we cannot decode a name string, the initializer should fail.
+            guard let Name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String else {
+            os_log("Unable to decode the name for a task object.", log: OSLog.default, type: .debug)
+            return nil
+            }
+            // Because photo is an optional property of Meal, just use conditional cast.
+            let photo = aDecoder.decodeObject(forKey: PropertyKey.photo) as? UIImage
+        
+        
+            let priority = aDecoder.decodeInteger(forKey: PropertyKey.priority) as Int
+        
+            let priorityDate = aDecoder.decodeObject(forKey: PropertyKey.priorityDate) as? String
+        
+            // Must call designated initializer.
+            self.init(name: Name, photo: photo, priority: priority ,priorityDate : priorityDate! )
+    }
+    
+
 }

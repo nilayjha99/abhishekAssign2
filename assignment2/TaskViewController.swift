@@ -12,6 +12,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
     
     
     
+    @IBOutlet weak var cancelEditing: UIBarButtonItem!
     @IBOutlet weak var prioritySegment: UISegmentedControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var datePickerTF: UITextField!
@@ -201,6 +202,21 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
     
     
   
+    @IBAction func cancelEditingWhenTapped(_ sender: UIBarButtonItem) {
+        
+        
+        let isPresentingInAddTaskMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddTaskMode {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController{
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The TaskViewVController is not inside a navigation controller.")
+        }
+    }
     
     
     
