@@ -41,7 +41,7 @@ class Task: NSObject, NSCoding {
     //MARK Initialisers
     //MARK: Initialization
     
-    init?(name: String, photo: UIImage?, priority: Int , priorityDate: String) {
+    init?(name: String, photo: UIImage?, priority: Int , priorityDate: String, textDescription: String? = nil) {
        
         // Initialization should fail if there is no name or if the rating is negative.
         if name.isEmpty   {
@@ -52,6 +52,7 @@ class Task: NSObject, NSCoding {
         self.photo = photo
         self.priority = priority
         self.priorityDate = priorityDate
+        self.textDescription = textDescription
     }
     
     //MARK: -  NSCoding
@@ -61,7 +62,6 @@ class Task: NSObject, NSCoding {
         aCoder.encode(photo, forKey: PropertyKey.photo)
         aCoder.encode(priority, forKey: PropertyKey.priority)
         aCoder.encode(priorityDate, forKey: PropertyKey.priorityDate)
-        
         aCoder.encode(textDescription, forKey: PropertyKey.textDescription)
     }
     
@@ -79,9 +79,9 @@ class Task: NSObject, NSCoding {
             let priority = aDecoder.decodeInteger(forKey: PropertyKey.priority) as Int
         
             let priorityDate = aDecoder.decodeObject(forKey: PropertyKey.priorityDate) as? String
-        
+            let TextDescription = aDecoder.decodeObject(forKey: PropertyKey.textDescription) as? String
             // Must call designated initializer.
-            self.init(name: Name, photo: photo, priority: priority ,priorityDate : priorityDate! )
+        self.init(name: Name, photo: photo, priority: priority ,priorityDate : priorityDate!, textDescription: TextDescription)
     }
     
 

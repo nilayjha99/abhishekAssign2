@@ -64,9 +64,8 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
         let photo = taskImage.image
         let priority = prioritySegment.selectedSegmentIndex
         let date = datePickerTF.text ?? ""
-    
-        task = Task(name: name, photo: photo, priority: priority , priorityDate: date)
-    
+        
+        task = Task(name: name, photo: photo, priority: priority , priorityDate: date, textDescription: taskDescriptionHere.text)
     }
     
     
@@ -250,7 +249,11 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
         imagePickerController.sourceType = UIImagePickerController.SourceType.camera
     }
     
-    
+   // End keyboard when nothing to write in text view
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with:event)
+        self.view.endEditing(true)
+    }
     
 }
 
