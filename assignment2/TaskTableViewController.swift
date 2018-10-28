@@ -66,7 +66,23 @@ class TaskTableViewController: UITableViewController {
 
         cell.nameLabel.text = task.name
         cell.taskImageInCell.image = task.photo
-        cell.priorityLabel.text = String(task.priority)
+        if task.priority == 0 {
+        //cell.priorityLabel.text = String(task.priority)
+        
+        cell.priorityLabel.text = "LOW"
+            cell.priorityLabel.textColor = UIColor.green
+        }
+        else if task.priority == 1{
+            
+            cell.priorityLabel.text = "MEDIUM"
+            cell.priorityLabel.textColor = UIColor.orange
+        }
+        else if task.priority == 2
+        {
+            cell.priorityLabel.text = "HIGH"
+            cell.priorityLabel.textColor = UIColor.red
+        }
+            
         cell.dateLabel.text = task.priorityDate
         
         return cell

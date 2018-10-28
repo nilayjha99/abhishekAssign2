@@ -19,7 +19,7 @@ class Task: NSObject, NSCoding {
     var photo: UIImage?
     var priority: Int
     var priorityDate : String
-    
+    var textDescription : String?
     //MARK: - Archiving Paths
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -33,6 +33,8 @@ class Task: NSObject, NSCoding {
          static let photo = "photo"
          static let priority = "priority"
          static let  priorityDate = "priorityDate"
+        
+        static let textDescription = "textDescription"
     }
     
     
@@ -59,6 +61,8 @@ class Task: NSObject, NSCoding {
         aCoder.encode(photo, forKey: PropertyKey.photo)
         aCoder.encode(priority, forKey: PropertyKey.priority)
         aCoder.encode(priorityDate, forKey: PropertyKey.priorityDate)
+        
+        aCoder.encode(textDescription, forKey: PropertyKey.textDescription)
     }
     
     

@@ -8,7 +8,7 @@
 import os.log
 import UIKit
 
-class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationControllerDelegate {
+class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UITextFieldDelegate , UINavigationControllerDelegate {
     
     
     
@@ -19,6 +19,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
     
     @IBOutlet weak var taskImage: UIImageView!
   
+    @IBOutlet weak var taskDescriptionHere: UITextView!
     //Scroll View
    // @IBOutlet weak var scrollView: UIScrollView!
     
@@ -79,7 +80,16 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
        //Handle the text field’s user input through delegate callbacks.
         taskTextField.delegate = self
         
-        //function call here
+            // editing existing meals
+            
+            if let task = task {
+                navigationItem.title = task.name
+                taskTextField.text   = task.name
+                taskImage.image = task.photo
+                prioritySegment.selectedSegmentIndex = task.priority
+            }
+        
+            //function call here
         createDatePicker()
     }
     
@@ -115,8 +125,8 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
         
         //format of the display
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-         dateFormatter.timeStyle = .medium
+        dateFormatter.dateStyle = .short
+         dateFormatter.timeStyle = .short
         datePickerTF.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
         
@@ -155,6 +165,8 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
         // Disable the Save button if the text field is empty.
         let text = taskTextField.text ?? ""
         saveButton.isEnabled = !text.isEmpty
+        
+    
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -216,6 +228,26 @@ class TaskViewController: UIViewController, UITextFieldDelegate , UINavigationCo
         else {
             fatalError("The TaskViewVController is not inside a navigation controller.")
         }
+    }
+    
+    
+    
+    //MARK: - Image part edititng
+    
+    @IBAction func selectIImageOrCameraRoll(_ sender: UITapGestureRecognizer) {
+        
+        // Hide the keyboard.
+        taskTextField.resignFirstResponder()
+        
+        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+        let imagePickerController = UIImagePickerController()
+        
+        // Only allow photos to be picked, not taken.
+       // imagePickerController.sourceType = .photoLibrary
+   
+        imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+        
+        imagePickerController.sourceType = UIImagePickerController.SourceType.camera
     }
     
     
