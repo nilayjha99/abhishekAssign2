@@ -65,21 +65,22 @@ class TaskTableViewController: UITableViewController {
          let task = tasks[indexPath.row]
 
         cell.nameLabel.text = task.name
-        cell.taskImageInCell.image = task.photo
+        cell.taskImageInCell.image = task.thumbnail
         if task.priority == 0 {
         //cell.priorityLabel.text = String(task.priority)
         
-        cell.priorityLabel.text = "LOW"
+        cell.priorityLabel.text = "!"
             cell.priorityLabel.textColor = UIColor.green
         }
         else if task.priority == 1{
             
-            cell.priorityLabel.text = "MEDIUM"
+            cell.priorityLabel.text = "!!"
             cell.priorityLabel.textColor = UIColor.orange
         }
         else if task.priority == 2
         {
-            cell.priorityLabel.text = "HIGH"
+            cell.priorityLabel.text = "!!!"
+            cell.priorityLabel.highlightedTextColor = UIColor.red
             cell.priorityLabel.textColor = UIColor.red
         }
             
@@ -172,7 +173,7 @@ class TaskTableViewController: UITableViewController {
         let photo2 = UIImage(named: "photo2")
         let photo3 = UIImage(named: "photo3")
         
-        guard let task1 = Task(name: "high", photo: photo1, priority: 1, priorityDate:"27/10/2018") else {
+        guard let task1 = Task(name: "PAY EB", photo: photo1, priority: 1, priorityDate:"27/10/2018") else {
             fatalError("Unable to instantiate meal1")
         }
         

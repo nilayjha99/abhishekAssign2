@@ -8,7 +8,7 @@
 import os.log
 import UIKit
 
-class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UITextFieldDelegate , UINavigationControllerDelegate {
+class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UITextFieldDelegate , UINavigationControllerDelegate , UITextViewDelegate, UIScrollViewDelegate{
     
     
     
@@ -19,33 +19,117 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
     
     @IBOutlet weak var taskImage: UIImageView!
   
+    @IBOutlet weak var selectImage: UIButton!
     @IBOutlet weak var taskDescriptionHere: UITextView!
     //Scroll View
    // @IBOutlet weak var scrollView: UIScrollView!
     
     //@IBOutlet weak var imageView: UIImageView!
     
-    /*
-     This value is either passed by `MealTableViewController` in `prepare(for:sender:)`
-     or constructed as part of adding a new meal.
-     */
+    
     var task : Task?
+    var imageView = UIImageView()
     
-    
+
     
     //Properties
     let datePicker=UIDatePicker()
     
-    
     @IBOutlet weak var taskTextField: UITextField!
     
+    @IBOutlet weak var imsgeScrollView: UIScrollView!
     
     
     
     // Using segmented control for selecting priority
     @IBOutlet weak var mySegmentedControl: UISegmentedControl!
     
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        self.centreScrollViewContents()
+    }
+
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.imageView
+    }
+
+    func displayImageInsideScrollView(image: UIImage? = nil) {
+
+        var setImage : UIImage?
+        
+        if self.task != nil {
+            if image != nil {
+                setImage = image
+            } else if (self.task?.photo != nil) {
+                setImage = self.task?.photo
+            } else {
+                return
+            }
+        } else {
+            if image != nil {
+                setImage = image
+            } else {
+                return
+            }
+        }
+      
+
+        self.imageView.image = setImage
+        self.imageView.contentMode = .center
+        
+        self.imageView.frame = CGRect(x: 0, y: 0,
+                                      width: (setImage!.size.width),
+                                      height: (setImage!.size.height))
+        
+        
+        self.imageView.isUserInteractionEnabled = true
+        self.imsgeScrollView.contentSize = (setImage!.size)
+        
+        let scrollViewFrame = self.imsgeScrollView.frame
+        let scaledWidth = scrollViewFrame.size.width / self.imsgeScrollView.contentSize.width
+        let scaledHeight = scrollViewFrame.size.width / self.imsgeScrollView.contentSize.width
+        let minScale = min(scaledHeight, scaledWidth)
+        
+        self.imsgeScrollView.minimumZoomScale = minScale
+        self.imsgeScrollView.maximumZoomScale = 1
+        self.imsgeScrollView.zoomScale = minScale
+        
+        self.imsgeScrollView.addSubview(self.imageView)
+
+    }
     
+    func centreScrollViewContents() {
+        let boundSize = self.imsgeScrollView.bounds.size
+        var contentsFrame = self.imageView.frame
+        
+        if contentsFrame.size.width < boundSize.width {
+            contentsFrame.origin.x = (boundSize.width - contentsFrame.size.width) / 2
+        } else {
+            contentsFrame.origin.x = 0
+        }
+        
+        if contentsFrame.size.height < boundSize.height {
+            contentsFrame.origin.y = (boundSize.height - contentsFrame.size.height) / 2
+        } else {
+            contentsFrame.origin.y = 0
+        }
+        self.imageView.frame = contentsFrame
+    }
+
+    func saveAndCropImage() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(self.imsgeScrollView.bounds.size, true, UIScreen.main.scale)
+        let offset = self.imsgeScrollView.contentOffset
+        guard let context = UIGraphicsGetCurrentContext() else {
+            fatalError("ss")
+        }
+        context.translateBy(x: -offset.x, y: -offset.y)
+        self.imsgeScrollView.layer.render(in: context)
+        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return screenshot
+//        self.task?.updateThumbnail(thumbnail: screenshot, frameOffset: self.imageView.frame, zoomLevel: self.imageScrollView!.zoomScale)
+      
+    }
+
     
     //Navigation
     
@@ -61,11 +145,12 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
             
             }
         let name = taskTextField.text ?? ""
-        let photo = taskImage.image
+        let photo = (self.imageView.image == nil) ? nil : self.imageView.image
         let priority = prioritySegment.selectedSegmentIndex
         let date = datePickerTF.text ?? ""
-        
-        task = Task(name: name, photo: photo, priority: priority , priorityDate: date, textDescription: taskDescriptionHere.text)
+        let notes = taskDescriptionHere.text ?? ""
+        let thumbnail = (task != nil) ? ((task!.photo != nil) ? saveAndCropImage() : nil) : nil
+        task = Task(name: name, photo: photo, priority: priority , priorityDate: date, textDescription: notes, thumbnail: thumbnail)
     }
     
     
@@ -83,20 +168,88 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
             
             if let task = task {
                 navigationItem.title = task.name
+                self.saveButton.isEnabled = true
                 taskTextField.text   = task.name
                 taskImage.image = task.photo
                 prioritySegment.selectedSegmentIndex = task.priority
+                datePickerTF.text = (task.priorityDate != "") ? task.priorityDate : "Unspecified"
+                taskDescriptionHere.text = (task.textDescription != nil) ? task.textDescription : ""
+                print(task.priorityDate)
+                displayImageInsideScrollView()
+            } else {
+                datePickerTF.text = "Unspecified"
             }
         
             //function call here
         createDatePicker()
     }
     
+    @IBAction func chooseTaskImage(_ sender: UIButton) {
+        // image controller
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        
+        // build action sheet
+        let imageActionSheet = UIAlertController(title: "Photo Source", message: "choose a source.", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                imagePickerController.sourceType = .camera
+                self.present(imagePickerController, animated: true, completion: nil)
+            } else {
+                print("no camera")
+            }
+        })
+        
+        imageActionSheet.addAction(cameraAction)
+        
+        let galleryAction = UIAlertAction(title: "Photo Gallery", style: .default, handler: { (action: UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+            
+        })
+        
+        imageActionSheet.addAction(galleryAction)
+        
+        let cancelActon = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        imageActionSheet.addAction(cancelActon)
+        
+        present(imageActionSheet, animated: true)
+
+    }
+    
+    //MARK: - UIImagePickerControllerDelegate -
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // if cancel is pressed from image picker
+        // then return to current view closing photo library
+        // Dismiss the picker if the user canceled.
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - UIImagePickerControllerDelegate -
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        // if user selects an image process the input
+        // The info dictionary may contain multiple representations of the image. You want to use the original.
+        guard let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        
+        // Set photoImageView to display the selected image.
+        self.displayImageInsideScrollView(image: chosenImage)
+        
+        // Dismiss the picker.
+        dismiss(animated: true, completion: nil)
+    }
+    
+
     //will popup date picker when text field is tapped
     func createDatePicker(){
         
         //Formatting the display
-        datePicker.datePickerMode = .date
+        datePicker.datePickerMode = .dateAndTime
         
         //assigning date picker to textfied
         datePickerTF.inputView=datePicker
@@ -246,13 +399,14 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
    
         imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
         
-        imagePickerController.sourceType = UIImagePickerController.SourceType.camera
+//        imagePickerController.sourceType = UIImagePickerController.SourceType.camera
     }
     
    // End keyboard when nothing to write in text view
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with:event)
-        self.view.endEditing(true)
+        super.touchesBegan( touches , with: event)
+       // self.view.endEditing(true)
+        self.taskDescriptionHere.resignFirstResponder()
     }
     
 }
