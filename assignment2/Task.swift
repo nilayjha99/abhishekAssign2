@@ -21,7 +21,7 @@ class Task: NSObject, NSCoding {
     var priorityDate : String
     var textDescription : String?
     var thumbnail: UIImage?
-    
+    var createdDate: String?
     //MARK: - Archiving Paths
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -37,13 +37,14 @@ class Task: NSObject, NSCoding {
          static let priorityDate = "priorityDate"
          static let textDescription = "textDescription"
          static let thumbnail = "thumbnail"
+        static let createdDate = "cretedDate"
     }
     
     
     //MARK Initialisers
     //MARK: Initialization
     
-    init?(name: String, photo: UIImage?, priority: Int , priorityDate: String, textDescription: String? = nil, thumbnail: UIImage? = nil) {
+    init?(name: String, photo: UIImage?, priority: Int , priorityDate: String, textDescription: String? = nil, thumbnail: UIImage? = nil, createdDate: String?) {
        
         // Initialization should fail if there is no name or if the rating is negative.
         if name.isEmpty   {
@@ -60,7 +61,7 @@ class Task: NSObject, NSCoding {
         } else {
             self.thumbnail = thumbnail
         }
-        
+        self.createdDate = createdDate
         print("notes: \(textDescription ?? "nothing")")
     }
     
@@ -72,6 +73,7 @@ class Task: NSObject, NSCoding {
         aCoder.encode(priorityDate, forKey: PropertyKey.priorityDate)
         aCoder.encode(textDescription, forKey: PropertyKey.textDescription)
         aCoder.encode(thumbnail, forKey: PropertyKey.thumbnail)
+        aCoder.encode(createdDate, forKey: PropertyKey.createdDate)
     }
     
     
@@ -91,8 +93,9 @@ class Task: NSObject, NSCoding {
         
             let priorityDate = aDecoder.decodeObject(forKey: PropertyKey.priorityDate) as? String
             let textDescription = aDecoder.decodeObject(forKey: PropertyKey.textDescription) as? String
+         let createdDate = aDecoder.decodeObject(forKey: PropertyKey.priorityDate) as? String
             // Must call designated initializer.
-        self.init(name: Name, photo: photo, priority: priority ,priorityDate : priorityDate!, textDescription: textDescription, thumbnail: thumbnail)
+        self.init(name: Name, photo: photo, priority: priority ,priorityDate : priorityDate!, textDescription: textDescription, thumbnail: thumbnail, createdDate: createdDate)
     }
     
 

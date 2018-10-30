@@ -17,6 +17,7 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var datePickerTF: UITextField!
     
+    @IBOutlet weak var dateCreated: UILabel!
     @IBOutlet weak var taskImage: UIImageView!
   
     @IBOutlet weak var selectImage: UIButton!
@@ -154,7 +155,14 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
         let date = datePickerTF.text ?? ""
         let notes = taskDescriptionHere.text ?? ""
         let thumbnail = (task != nil) ? ((task!.photo != nil) ? saveAndCropImage() : nil) : nil
-        task = Task(name: name, photo: photo, priority: priority , priorityDate: date, textDescription: notes, thumbnail: thumbnail)
+        var createdDate: String
+        if (task != nil) {
+            createdDate = task!.createdDate!
+        } else {
+            createdDate = dateCreated.text!
+        }
+        task = Task(name: name, photo: photo, priority: priority , priorityDate: date, textDescription: notes, thumbnail: thumbnail, createdDate: createdDate)
+            
     }
     
     
@@ -180,11 +188,22 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
                 prioritySegment.selectedSegmentIndex = task.priority
                 datePickerTF.text = (task.priorityDate != "") ? task.priorityDate : "Unspecified"
                 taskDescriptionHere.text = (task.textDescription != nil) ? task.textDescription : ""
-                print(task.priorityDate)
+                if (task.createdDate != nil) {
+                    dateCreated.text = task.createdDate
+                } else {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateStyle = .short
+                    dateFormatter.timeStyle = .short
+                    dateCreated.text = dateFormatter.string(from: Date())
+                }
                 displayImageInsideScrollView()
             } else {
                 datePickerTF.text = "Unspecified"
                 displayImageInsideScrollView()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .short
+                dateFormatter.timeStyle = .short
+                dateCreated.text = dateFormatter.string(from: Date())
             }
         
             //function call here
@@ -213,7 +232,6 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
         let galleryAction = UIAlertAction(title: "Photo Gallery", style: .default, handler: { (action: UIAlertAction) in
             imagePickerController.sourceType = .photoLibrary
             self.present(imagePickerController, animated: true, completion: nil)
-            
         })
         
         imageActionSheet.addAction(galleryAction)

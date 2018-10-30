@@ -148,7 +148,7 @@ class TaskTableViewController: UITableViewController {
             }
             
             guard let selectedTaskCell = sender as? tasksViewCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(sender ?? "abcd")")
             }
             
             guard let indexPath = tableView.indexPath(for: selectedTaskCell) else {
@@ -174,16 +174,18 @@ class TaskTableViewController: UITableViewController {
         let photo1 = UIImage(named: "photo1")
         let photo2 = UIImage(named: "photo2")
         let photo3 = UIImage(named: "photo3")
-        
-        guard let task1 = Task(name: "PAY EB", photo: photo1, priority: 1, priorityDate:"27/10/2018") else {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        guard let task1 = Task(name: "PAY EB", photo: photo1, priority: 1, priorityDate:"27/10/2018", createdDate: dateFormatter.string(from: Date())) else {
             fatalError("Unable to instantiate meal1")
         }
         
-        guard let task2 = Task(name: "meet nilay", photo: photo2, priority: 2 , priorityDate:"27/10/2018") else {
+        guard let task2 = Task(name: "meet nilay", photo: photo2, priority: 2 , priorityDate:"27/10/2018", createdDate: dateFormatter.string(from: Date())) else {
             fatalError("Unable to instantiate meal2")
         }
         
-        guard let task3 = Task(name: "paybill", photo: photo3, priority: 3 , priorityDate:"27/10/2018" ) else {
+        guard let task3 = Task(name: "paybill", photo: photo3, priority: 3 , priorityDate:"27/10/2018", createdDate: dateFormatter.string(from: Date()) ) else {
             fatalError("Unable to instantiate meal2")
         }
         tasks += [task1, task2, task3]
