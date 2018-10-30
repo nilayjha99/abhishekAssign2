@@ -8,7 +8,7 @@
 import os.log
 import UIKit
 
-class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UITextFieldDelegate , UINavigationControllerDelegate , UITextViewDelegate, UIScrollViewDelegate{
+class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UITextFieldDelegate , UINavigationControllerDelegate , UITextViewDelegate, UIScrollViewDelegate {
     
     
     
@@ -163,7 +163,7 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
                 
        //Handle the text field’s user input through delegate callbacks.
         taskTextField.delegate = self
-        
+        imsgeScrollView.delegate = self
             // editing existing meals
             
             if let task = task {
