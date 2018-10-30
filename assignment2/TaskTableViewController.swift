@@ -65,7 +65,9 @@ class TaskTableViewController: UITableViewController {
          let task = tasks[indexPath.row]
 
         cell.nameLabel.text = task.name
-        cell.taskImageInCell.image = task.thumbnail
+        if task.thumbnail != nil {
+          cell.taskImageInCell.image = task.thumbnail
+        }
         if task.priority == 0 {
         //cell.priorityLabel.text = String(task.priority)
         

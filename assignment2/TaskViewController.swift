@@ -55,19 +55,23 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
     func displayImageInsideScrollView(image: UIImage? = nil) {
 
         var setImage : UIImage?
-        
+        self.imsgeScrollView.isHidden = false
         if self.task != nil {
             if image != nil {
                 setImage = image
             } else if (self.task?.photo != nil) {
                 setImage = self.task?.photo
+                self.taskImage.isHidden = true
             } else {
+                self.imsgeScrollView.isHidden = true
                 return
             }
         } else {
             if image != nil {
+                 self.taskImage.isHidden = true
                 setImage = image
             } else {
+                self.imsgeScrollView.isHidden = true
                 return
             }
         }
@@ -169,8 +173,10 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
             if let task = task {
                 navigationItem.title = task.name
                 self.saveButton.isEnabled = true
-                taskTextField.text   = task.name
-                taskImage.image = task.photo
+                taskTextField.text = task.name
+                if (task.photo != nil) {
+                    taskImage.image = task.photo
+                }
                 prioritySegment.selectedSegmentIndex = task.priority
                 datePickerTF.text = (task.priorityDate != "") ? task.priorityDate : "Unspecified"
                 taskDescriptionHere.text = (task.textDescription != nil) ? task.textDescription : ""
@@ -178,6 +184,7 @@ class TaskViewController: UIViewController, UIImagePickerControllerDelegate , UI
                 displayImageInsideScrollView()
             } else {
                 datePickerTF.text = "Unspecified"
+                displayImageInsideScrollView()
             }
         
             //function call here
